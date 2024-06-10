@@ -2,7 +2,6 @@ class Solution {
 public:
     int heightChecker(vector<int>& heights) {
         vector<char> sorted(heights.begin(), heights.end());
-        // counting sort
         char freq[101]={0};
         for(char x: sorted) freq[x]++;
         int cnt=0;
@@ -12,7 +11,6 @@ public:
             copy(begin(f_x), end(f_x), sorted.begin()+cnt);
             cnt+=f;
         }
-        //end of count sort
 
         int n=heights.size(), ans=0;
         for(int i=0; i<n; i++)

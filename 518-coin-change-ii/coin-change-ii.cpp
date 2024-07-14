@@ -12,9 +12,23 @@ public:
             take=f(idx,target-arr[idx],arr,dp);
         return dp[idx][target]=take+nottake;
     }
-    int change(int target, vector<int>& coins) {
-        int n=coins.size();
-        vector<vector<int>> dp(n,vector<int>(target+1,-1));
-        return f(n-1,target,coins,dp);
+    int change(int amount, vector<int>& arr) {
+        int n=arr.size();
+        // vector<vector<int>> dp(n,vector<int>(target+1,-1)); // for memoize
+        vector<vector<int>> dp(n,vector<int>(amount+1,0));
+        for(int t=0;t<=amount;t++)
+            if(t%arr[0]==0) dp[0][t]=1;
+
+        for(int idx=1;idx<n;idx++){
+            for(int target=0;target<=amount;target++){
+                int nottake=dp[idx-1][target];
+                int take =0;
+                if(target>=arr[idx])
+                    take=dp[idx][target-arr[idx]];
+                dp[idx][target]=take+nottake;
+            }
+        }
+
+        return dp[n-1][amount];
     }
 };

@@ -10,32 +10,26 @@
  */
 class Solution {
 public:
-    int length_ll(ListNode* head)
-    {
-        int count_node=0;
-        ListNode *ptr=head;
-        while(ptr!=NULL)
-        {
-            count_node++;
-            ptr=ptr->next;
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        if(!head || !head->next) return NULL;
+
+        ListNode *slow = head, *fast = head;
+        while(n!=0){
+            fast = fast->next;
+            n--;
         }
-        return count_node;
-    }
-    ListNode* removeNthFromEnd(ListNode* head, int n) 
-    {
-        int len=length_ll(head);
-        if(len==1)
-            return NULL;
-        if(len==n)
-            return head->next;
-        int node_number=0;
-        ListNode *ptr=head;
-        while( node_number < len-n-1 )
-        {
-            ptr=ptr->next;
-            node_number++;
+        if(!fast){
+            head = head->next;
+            return head;
         }
-        ptr->next=ptr->next->next;
+
+        while(fast && fast->next){
+            slow = slow->next;
+            fast = fast->next;
+        }
+        ListNode *todel = slow->next;
+        slow -> next = slow->next->next;
+
         return head;
     }
 };

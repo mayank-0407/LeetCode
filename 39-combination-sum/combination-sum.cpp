@@ -1,22 +1,21 @@
 class Solution {
 public:
-void solve(int idx, vector<int>& arr, int target, vector<vector<int>> &ans, vector<int> &ds){
-    if(idx==arr.size()){
-        if(target==0) ans.push_back(ds);
-
-        return;
+    vector<vector<int>> ans;
+    void find(int idx, vector<int>& thisarr, vector<int>& arr, int target){
+        if(idx == arr.size()){
+            if(target == 0)ans.push_back(thisarr);
+            return;
+        }
+        if(arr[idx] <= target){
+            thisarr.push_back(arr[idx]);
+            find(idx, thisarr, arr, target - arr[idx]);
+            thisarr.pop_back();
+        } 
+        find(idx + 1, thisarr, arr, target);
     }
-    if(arr[idx]<=target){
-        ds.push_back(arr[idx]);
-        solve(idx,arr,target-arr[idx],ans,ds);
-        ds.pop_back();
-    }
-    solve(idx+1,arr,target,ans,ds);
-}
-    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-        vector<vector<int>> ans;
-        vector<int> ds;
-        solve(0,candidates,target,ans,ds);
-        return ans;
+    vector<vector<int>> combinationSum(vector<int>& arr, int target) {
+        vector<int> temp;
+        find(0, temp, arr,target);
+        return ans;   
     }
 };
